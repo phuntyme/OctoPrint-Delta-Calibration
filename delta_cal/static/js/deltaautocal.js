@@ -600,11 +600,11 @@ $(function () {
 
               self.control.sendCustomCommand({ command: "M500" });
               self.statusMessage("Success, changes written to EEPROM.");
-              self.control.sendCustomCommand({ command: "G28" });
               console.log(self.statusMessage());
             }else{
               self.statusMessage("New calibration is not measureably better than the old - keeping the old calibration");
             }
+            self.control.sendCustomCommand({ command: "G28" }); // moved the home command so it always sends, even if the old calibration was kept
             self.calibrationComplete = true;
           }
           catch (err) {
