@@ -43,7 +43,7 @@ $(function () {
         var newDeviation = 0.0;
 
         // dc42 code
-        var initialPoints = 16; // was 10; // Was 7.
+        var initialPoints = 24; // was 16; // was 10; // Was 7.
         var initialFactors = 6; // Only 6 factor! 7 screws with the diagonal rod length 
                                 // and causes scaling errors -gwb 24Dec16
         var deltaParams;
@@ -348,11 +348,11 @@ $(function () {
               probeX *= factor;
               probeY *= factor;
             }
-            xBedProbePoints[i+startAt] = probeX.toFixed(2);
-            yBedProbePoints[i+startAt] = probeY.toFixed(2);
+            xBedProbePoints[i+startAt] = probeX.toFixed(3);
+            yBedProbePoints[i+startAt] = probeY.toFixed(3);
             zBedProbePoints[i+startAt] = 0.0;
-            console.log(" Point #" + parseInt(i+startAt) + " value: " + parseFloat(probeX.toFixed(2)) +
-                " / " + parseFloat(probeY).toFixed(2));
+            console.log(" Point #" + parseInt(i+startAt) + " value: " + parseFloat(probeX.toFixed(3)) +
+                " / " + parseFloat(probeY).toFixed(3));
           }
         }
 
@@ -380,8 +380,8 @@ $(function () {
           // this is the original, 10 point probe point generator.
           if (numPoints == 4) {
             for (var i = 0; i < 3; ++i) {
-              xBedProbePoints[i] = (bedRadius * Math.sin((2 * Math.PI * i) / 3)).toFixed(2);
-              yBedProbePoints[i] = (bedRadius * Math.cos((2 * Math.PI * i) / 3)).toFixed(2);
+              xBedProbePoints[i] = (bedRadius * Math.sin((2 * Math.PI * i) / 3)).toFixed(3);
+              yBedProbePoints[i] = (bedRadius * Math.cos((2 * Math.PI * i) / 3)).toFixed(3);
               zBedProbePoints[i] = 0.0; // we default this to zero -gwb
             }
             xBedProbePoints[3] = 0.0;
@@ -392,15 +392,15 @@ $(function () {
 
             if (numPoints >= 7) {
               for (var i = 0; i < 6; ++i) {
-                xBedProbePoints[i] = (bedRadius * Math.sin((2 * Math.PI * i) / 6)).toFixed(2);
-                yBedProbePoints[i] = (bedRadius * Math.cos((2 * Math.PI * i) / 6)).toFixed(2);
+                xBedProbePoints[i] = (bedRadius * Math.sin((2 * Math.PI * i) / 6)).toFixed(3);
+                yBedProbePoints[i] = (bedRadius * Math.cos((2 * Math.PI * i) / 6)).toFixed(3);
                 zBedProbePoints[i] = 0.0; // we default this to zero -gwb
               }
             }
             if (numPoints >= 10) {
               for (var i = 6; i < 9; ++i) {
-                xBedProbePoints[i] = (bedRadius / 2 * Math.sin((2 * Math.PI * (i - 6)) / 3)).toFixed(2);
-                yBedProbePoints[i] = (bedRadius / 2 * Math.cos((2 * Math.PI * (i - 6)) / 3)).toFixed(2);
+                xBedProbePoints[i] = (bedRadius / 2 * Math.sin((2 * Math.PI * (i - 6)) / 3)).toFixed(3);
+                yBedProbePoints[i] = (bedRadius / 2 * Math.cos((2 * Math.PI * (i - 6)) / 3)).toFixed(3);
                 zBedProbePoints[i] = 0.0; // we default this to zero -gwb
               }
               xBedProbePoints[9] = 0.0;
@@ -525,12 +525,12 @@ $(function () {
           newXStop = deltaParams.xstop.toFixed(endstopPlaces);
           newYStop = deltaParams.ystop.toFixed(endstopPlaces);
           newZStop = deltaParams.zstop.toFixed(endstopPlaces);
-          newRodLength = deltaParams.diagonal.toFixed(2);
-          newRadius = deltaParams.radius.toFixed(2);
-          newHomedHeight = deltaParams.homedHeight.toFixed(2);
-          newXPos = deltaParams.xadj.toFixed(2);
-          newYPos = deltaParams.yadj.toFixed(2);
-          newZPos = deltaParams.zadj.toFixed(2);
+          newRodLength = deltaParams.diagonal.toFixed(3);
+          newRadius = deltaParams.radius.toFixed(3);
+          newHomedHeight = deltaParams.homedHeight.toFixed(3);
+          newXPos = deltaParams.xadj.toFixed(3);
+          newYPos = deltaParams.yadj.toFixed(3);
+          newZPos = deltaParams.zadj.toFixed(3);
         }
 
         self.beginDeltaCal = function () {
@@ -568,12 +568,12 @@ $(function () {
 
             if( oldDeviation != newDeviation ){
               //Hacky fix to get the adjustments to go the right way!
-              var newXStop = Math.round(deltaParams.xstop.toFixed(2));
-              var newYStop = Math.round(deltaParams.ystop.toFixed(2));
-              var newZStop = Math.round(deltaParams.zstop.toFixed(2));
-              var newDiagonal = deltaParams.diagonal.toFixed(2);
-              var newRadius = deltaParams.radius.toFixed(2);
-              var newHomedHeight = deltaParams.homedHeight.toFixed(2);
+              var newXStop = Math.round(deltaParams.xstop.toFixed(3));
+              var newYStop = Math.round(deltaParams.ystop.toFixed(3));
+              var newZStop = Math.round(deltaParams.zstop.toFixed(3));
+              var newDiagonal = deltaParams.diagonal.toFixed(3);
+              var newRadius = deltaParams.radius.toFixed(3);
+              var newHomedHeight = deltaParams.homedHeight.toFixed(3);
 
               console.log("========================================")
               self.saveEEPROMData(1, "893", newXStop);
@@ -706,8 +706,8 @@ $(function () {
             if (iteration == 2) { break; }
           }
 
-          oldDeviation = Math.sqrt(initialSumOfSquares / numPoints).toFixed(2);
-          newDeviation = expectedRmsError.toFixed(2);
+          oldDeviation = Math.sqrt(initialSumOfSquares / numPoints).toFixed(3);
+          newDeviation = expectedRmsError.toFixed(3);
           var infoStr = "Calibrated " + numFactors + " factors using " + numPoints + " points, deviation before " + oldDeviation
           + " after, " + newDeviation;
           console.log(infoStr);
